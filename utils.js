@@ -1,3 +1,5 @@
+let horizontalMouseMovement = 0;
+let verticalMouseMovement = 0;
 
 function createShader(gl, type, source) {
     var shader = gl.createShader(type);
@@ -30,18 +32,21 @@ function isAbv(value) {
 }
 
 function createBuffer(gl, type, data) {
-
-    if(data.length == 0)
+    if (data.length === 0)
         return null;
 
-    if(!isAbv(data)) {
+    if (!isAbv(data)) {
         console.warn('Data is not an instance of ArrayBuffer');
         return null;
     }
 
     var buffer = gl.createBuffer();
     gl.bindBuffer(type, buffer);
-    gl.bufferData(type, data, gl.STATIC_DRAW);
+
+    // Use a valid target for bufferData based on the type
+    var target = (type === gl.ARRAY_BUFFER) ? gl.ARRAY_BUFFER : gl.ELEMENT_ARRAY_BUFFER;
+    
+    gl.bufferData(target, data, gl.STATIC_DRAW);
 
     return buffer;
 }

@@ -10,7 +10,13 @@ in vec3 position;
 out vec4 vColor;
 
 void main() {
-    // TODO: transform position
-    gl_Position = uProjection * uView * uModel * vec4(position, 1);
+    // Transform position
+    vec4 transformedPosition = uProjection * uView * uModel * vec4(position, 1.0);
+
+    // Pass color to the fragment shader
+    vColor = uColor;
+
+    // Output transformed position
+    gl_Position = transformedPosition;
 }
 `;
